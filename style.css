@@ -1,0 +1,107 @@
+body {
+    font-family: Roboto, sans-serif; /* Use a common web font */
+    margin: 0; /* Remove default body margin */
+    background-color: #181818; /* Dark background similar to YouTube */
+    color: #fff; /* White text */
+    padding: 20px; /* Add some padding around the content */
+}
+
+.video-grid {
+    display: grid; /* Enable CSS Grid */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Create responsive columns */
+    gap: 20px; /* Space between grid items */
+    padding: 20px; /* Padding inside the grid container */
+    justify-content: center; /* Center the grid in the available space */
+}
+
+.video-item {
+    background-color: #282828; /* Slightly lighter background for video items */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Hide anything overflowing, especially important for rounded corners */
+    display: flex; /* Use flexbox for internal layout */
+    flex-direction: column; /* Stack thumbnail and info vertically */
+    text-decoration: none; /* Remove underline if we were using links */
+    color: inherit; /* Inherit text color from body */
+}
+
+.thumbnail {
+    position: relative; /* Needed to position the duration span absolute inside it */
+    width: 100%; /* Make thumbnail container take full width */
+    padding-top: 56.25%; /* Maintain a 16:9 aspect ratio (9 / 16 * 100%) */
+    background-color: #383838; /* Background color while image loads */
+}
+
+.thumbnail img {
+    position: absolute; /* Position image over the background */
+    top: 0;
+    left: 0;
+    width: 100%; /* Make image fill the container */
+    height: 100%; /* Make image fill the container */
+    object-fit: cover; /* Cover the container while maintaining aspect ratio */
+    display: block; /* Remove extra space below image */
+}
+
+.duration {
+    position: absolute; /* Position duration text over thumbnail */
+    bottom: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8rem; /* Smaller font size */
+    z-index: 1; /* Ensure it's above the image */
+}
+
+.video-info {
+    display: flex; /* Use flexbox for channel icon and text */
+    padding: 12px;
+    gap: 12px; /* Space between icon and text */
+}
+
+.channel-icon {
+    width: 36px; /* Size of the channel icon */
+    height: 36px;
+    border-radius: 50%; /* Make it round */
+    background-color: #383838; /* Background color while icon loads */
+    flex-shrink: 0; /* Prevent icon from shrinking */
+}
+
+.video-text {
+    flex-grow: 1; /* Allow text area to take up available space */
+}
+
+.video-title {
+    font-size: 1rem; /* Base font size for title */
+    margin: 0 0 4px 0; /* Adjust margins */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis (...) for overflowing text */
+    display: -webkit-box; /* Enable line clamping */
+    -webkit-line-clamp: 2; /* Limit title to 2 lines */
+    -webkit-box-orient: vertical;
+    line-height: 1.4; /* Improve readability */
+}
+
+.channel-name,
+.video-metadata {
+    font-size: 0.9rem; /* Smaller font size for metadata */
+    color: #aaa; /* Lighter color for secondary text */
+    margin: 0; /* Remove default paragraph margins */
+}
+
+.channel-name {
+     margin-bottom: 2px; /* Small space below channel name */
+}
+
+
+/* Basic responsiveness adjustments */
+@media (max-width: 600px) {
+    .video-grid {
+        grid-template-columns: 1fr; /* Stack items in a single column on small screens */
+        padding: 10px;
+    }
+
+    body {
+        padding: 10px;
+    }
+}
