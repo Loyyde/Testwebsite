@@ -1,61 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple YouTube Grid Clone</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Film Reel Slideshow Example</title>
+  <style>
+    .header-content, .footer-content {
+      text-align: center;
+      padding: 20px;
+      background-color: #f2f2f2;
+    }
+    .slideshow-container {
+      position: relative;
+      max-width: 800px;
+      margin: 40px auto;
+      overflow: hidden;
+      border: 2px solid #ddd;
+      background: #000;
+    }
+    .slide-wrapper {
+      display: flex;
+      transition: transform 0.8s ease-in-out;
+    }
+    .slide {
+      min-width: 100%;
+      position: relative;
+    }
+    .slide img {
+      width: 100%;
+      vertical-align: top;
+    }
+    .dot-container {
+      text-align: center;
+      padding: 10px;
+      background: #f2f2f2;
+    }
+    .dot {
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      margin: 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dot.active {
+      background-color: #717171;
+    }
+  </style>
 </head>
 <body>
-
-    <div class="video-grid">
-
-        <div class="video-item">
-            <div class="thumbnail">
-                <img src="https://via.placeholder.com/300x180.png?text=Video+Thumbnail" alt="Video Thumbnail Placeholder">
-                <span class="duration">10:30</span>
-            </div>
-            <div class="video-info">
-                <img src="https://via.placeholder.com/36x36.png?text=C" alt="Channel Icon Placeholder" class="channel-icon">
-                <div class="video-text">
-                    <h3 class="video-title">Amazing Video Title Goes Here And It Can Be Quite Long</h3>
-                    <p class="channel-name">Awesome Channel</p>
-                    <p class="video-metadata">1M views &bull; 1 day ago</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="video-item">
-            <div class="thumbnail">
-                <img src="https://via.placeholder.com/300x180.png?text=Another+Video" alt="Video Thumbnail Placeholder">
-                <span class="duration">5:15</span>
-            </div>
-            <div class="video-info">
-                 <img src="https://via.placeholder.com/36x36.png?text=D" alt="Channel Icon Placeholder" class="channel-icon">
-                <div class="video-text">
-                    <h3 class="video-title">Short Title</h3>
-                    <p class="channel-name">Another Creator</p>
-                    <p class="video-metadata">500K views &bull; 1 week ago</p>
-                </div>
-            </div>
-        </div>
-
-         <div class="video-item">
-            <div class="thumbnail">
-                <img src="https://via.placeholder.com/300x180.png?text=Placeholder+3" alt="Video Thumbnail Placeholder">
-                <span class="duration">22:00</span>
-            </div>
-            <div class="video-info">
-                 <img src="https://via.placeholder.com/36x36.png?text=E" alt="Channel Icon Placeholder" class="channel-icon">
-                <div class="video-text">
-                    <h3 class="video-title">Video About Coding and Web Dev Tutorials</h3>
-                    <p class="channel-name">Coding Guru</p>
-                    <p class="video-metadata">10K views &bull; 3 months ago</p>
-                </div>
-            </div>
-        </div>
-
-        </div>
-
+  <div id="header"></div>
+  <div class="slideshow-container">
+    <div class="slide-wrapper">
+      <div class="slide">
+        <img src="https://via.placeholder.com/800x400?text=Slide+1" alt="Slide 1">
+      </div>
+      <div class="slide">
+        <img src="https://via.placeholder.com/800x400?text=Slide+2" alt="Slide 2">
+      </div>
+      <div class="slide">
+        <img src="https://via.placeholder.com/800x400?text=Slide+3" alt="Slide 3">
+      </div>
+      <div class="slide">
+        <img src="https://via.placeholder.com/800x400?text=Slide+4" alt="Slide 4">
+      </div>
+    </div>
+  </div>
+  <div class="dot-container" id="dotContainer"></div>
+  <div id="footer"></div>
+  <script>
+    async function loadHTML(containerId, filePath) {
+      const response = await fetch(filePath);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const content = await response.text();
+      document.getElementById(containerId).innerHTML = content;
+    }
+    loadHTML('header', 'header.html');
+    loadHTML('footer', 'footer.html');
+    const slideWrapper = document.querySelector('.slide-wrapper');
+    const slides = document.querySelectorAll('.slide');
+    const dotContainer = document.getElementById('dotContainer');
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    let slideInterval;
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('span');
+      dot.classList.add('dot');
+      if (idx === 0) { dot.classList.add('active'); }
+      dot.addEventListener('click', () => {
+        clearInterval(slideInterval);
+        currentIndex = idx;
+        updateSlidePosition();
+        updateDots();
+        slideInterval = setInterval(autoSlide, 3000);
+      });
+      dotContainer.appendChild(dot);
+    });
+    const dots = document.querySelectorAll('.dot');
+    function updateSlidePosition() {
+      const offset = -currentIndex * 100;
+      slideWrapper.style.transform = "translateX(" + offset + "%)";
+    }
+    function updateDots() {
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === currentIndex);
+      });
+    }
+    function autoSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      updateSlidePosition();
+      updateDots();
+    }
+    slideInterval = setInterval(autoSlide, 3000);
+  </script>
 </body>
 </html>
