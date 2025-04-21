@@ -3,50 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Film Reel Slideshow Example</title>
-  <style>
-    .header-content, .footer-content {
-      text-align: center;
-      padding: 20px;
-      background-color: #f2f2f2;
-    }
-    .slideshow-container {
-      position: relative;
-      max-width: 800px;
-      margin: 40px auto;
-      overflow: hidden;
-      border: 2px solid #ddd;
-      background: #000;
-    }
-    .slide-wrapper {
-      display: flex;
-      transition: transform 0.8s ease-in-out;
-    }
-    .slide {
-      min-width: 100%;
-      position: relative;
-    }
-    .slide img {
-      width: 100%;
-      vertical-align: top;
-    }
-    .dot-container {
-      text-align: center;
-      padding: 10px;
-      background: #f2f2f2;
-    }
-    .dot {
-      display: inline-block;
-      width: 15px;
-      height: 15px;
-      margin: 5px;
-      background-color: #bbb;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    .dot.active {
-      background-color: #717171;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="header"></div>
@@ -89,7 +46,7 @@
       const dot = document.createElement('span');
       dot.classList.add('dot');
       if (idx === 0) { dot.classList.add('active'); }
-      dot.addEventListener('click', () => {
+      dot.addEventListener('click', function() {
         clearInterval(slideInterval);
         currentIndex = idx;
         updateSlidePosition();
@@ -104,7 +61,7 @@
       slideWrapper.style.transform = "translateX(" + offset + "%)";
     }
     function updateDots() {
-      dots.forEach((dot, idx) => {
+      dots.forEach(function(dot, idx) {
         dot.classList.toggle("active", idx === currentIndex);
       });
     }
